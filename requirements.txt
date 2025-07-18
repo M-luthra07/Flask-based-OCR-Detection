@@ -1,6 +1,6 @@
-flask
-flask-cors
-opencv-python
-numpy
+Flask
+Flask-Cors
 pytesseract
+numpy
+opencv-python-headless
 pyodbc
