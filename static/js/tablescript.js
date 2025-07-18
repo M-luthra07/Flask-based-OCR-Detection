@@ -2,7 +2,7 @@ const resultsTable = document.querySelector("#resultsTable tbody");
 const backBtn = document.getElementById("backBtn");
 const  clearbtn=document.getElementById("cleardata");
 // Load results
-fetch("http://localhost:5000/data")
+fetch("/data")
   .then(res => res.json())
   .then(data => {
     const table = document.getElementById("resultsTable");
