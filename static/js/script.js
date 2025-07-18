@@ -35,7 +35,7 @@ captureBtn.onclick = function () {
 
     // Delay OCR request slightly
     setTimeout(function () {
-        fetch("http://localhost:5000/ocr", {
+        fetch("/ocr", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
