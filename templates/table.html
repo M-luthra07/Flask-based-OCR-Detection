@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OCR Results Table</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div id="main-container">
+    <h1>📊 OCR Table Results</h1>
+    <button id="backBtn">📷 Back to Capture</button>
+      <button id="cleardata"> Clear </button>
+
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Value </th>
+          <th>SI Unit</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/tablescript.js') }}"></script>
+</body>
+</html>

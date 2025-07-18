@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OCR Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div id="main-container">
+    <h1>OCR Data Capture Dashboard</h1>
+
+    <video id="video" autoplay></video>
+
+    <div class="button-group">
+      <button id="captureBtn">Confirm Capture</button>
+      <button id="tablebtn">View OCR Table</button>
+        <button id="realtime">  📊 View Real-Time Analysis </button>
+
+    </div>
+
+    <p id="alertBox"></p>
+
+    <div id="preview-container">
+      <h3>Captured Snapshot</h3>
+      <img id="imagePreview" src="" alt="Captured Frame" />
+    </div>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
