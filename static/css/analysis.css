@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin: 20px 0;
+}
+
+#charts {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+canvas#unitChart {
+  width: 100% !important;
+  height: 500px !important;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#backBtn {
+  background-color: #085fbc;
+  color: #fff;
+  font-weight: bold;
+  margin: 10px auto;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+#backBtn:active {
+  background-color: red;
+}
+
+#main-container {
+  margin: 20px auto;
+  max-width: 850px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#error {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  margin-top: 20px;
+}

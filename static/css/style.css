@@ -1,0 +1,134 @@
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 6px solid limegreen;  /* Add this line */
+  border-radius: 8px;           /* Optional for rounded corners */
+}
+video, canvas {
+  width: 100%;
+  height: 80vh;
+  display: block;
+  border: 6px solid limegreen;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#main-container {
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+body {
+  background: rgba(255, 255, 255, 0.936);
+  color: black;
+  padding: 20px;
+}
+button-group {
+  text-align: center;
+  display: flex;
+  gap: 40px;
+  margin-top: 15px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#captureBtn ,#tablebtn{
+  background-color: #007bff;
+  color: white;
+}
+
+#captureBtn:hover {
+  background-color:red;
+}
+
+#alertBox {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #19ca42;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  font-size: 30px;
+  text-align: center;
+  color:darkred;
+  font-weight: bold;
+  border: 1px solid #c3e6cb;
+  background-color: #d4edda;
+}
+
+#preview-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#preview-container img {
+  max-width: 100%;
+  max-height: 500px;
+  border: 6px solid limegreen;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  margin-top: 40px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #007bff;
+  font-weight: bolder;
+  font-size: larger;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+#backBtn ,#realtime{
+  background-color:#085fbc;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+
+}
+#backBtn:hover {
+  background-color: red;
+}
+#realtime :active{
+  background: red;
+}
+#tablebtn:active{
+  background-color: red;
+}

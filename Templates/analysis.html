@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Real-Time Analysis</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div id="main-container">
+    <h2>Real-Time Unit-wise Value Analysis</h2>
+    <button id="backBtn" onclick="location.href='/'">📷 Back to Capture</button>
+  </div>
+
+  <div id="charts">
+    <canvas id="unitChart"></canvas>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+</body>
+</html>
