@@ -20,14 +20,17 @@ Deployed on Railway for public access.
 Category	Technologies
 Backend:Python (Flask), pytesseract, OpenCV
 Database:	Microsoft Azure SQL Server
-Frontend:HTML/CSS/JS (Vanilla)
+Frontend:HTML/CSS/JS 
 Deployment:Railway,render,repleit (with Azure SQL integration)
 OCR Engine:Tesseract v5 (configured for numeric/unit patterns)
+
+
 
 🚀 Setup Guide
 Prerequisites
 Tesseract OCR installed locally (Download).
 Azure SQL Database (or local SQL Server for testing).
+
 
 Installation 
 Install dependencies:
@@ -55,4 +58,5 @@ Unit-wise Analysis:
 
 
 🌐 Live Demo: https://flask-based-ocr-detection-production.up.railway.app/
+
 📂 GitHub: https://github.com/M-luthra07/Flask-based-OCR-Detection
