@@ -43,6 +43,7 @@ AZURE_SQL_USER=your-username
 AZURE_SQL_PASSWORD=your-password  
 
 📸 Screenshots
+
 Webcam Capture:
 
 
