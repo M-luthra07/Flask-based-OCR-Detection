@@ -72,13 +72,14 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 
 # ──────────────────────────  DB helpers  ────────────────────────────
 #sql server integeration credentials
+import os
 def get_conn() -> pyodbc.Connection:
     return pyodbc.connect(
         f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-        f"SERVER=mydb-project.database.windows.net;"
-        f"DATABASE=myprojectdb;"
-        f"UID=luthra;"
-        f"PWD=Manya@123;"
+        f"SERVER={os.environ['AZURE_SQL_SERVER']};"
+        f"DATABASE={os.environ['AZURE_SQL_DATABASE']};"
+        f"UID={os.environ['AZURE_SQL_USER']};"
+        f"PWD={os.environ['AZURE_SQL_PASSWORD']};"
         f"Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
     )
 
