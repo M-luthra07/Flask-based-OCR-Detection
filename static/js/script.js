@@ -1,5 +1,5 @@
 const tablebutton = document.getElementById("tablebtn");
-tablebutton.addEventListener("click", function (event) {
+tablebutton.addEventListener("click", () => {
   window.location.href = "/table";
 });
 
@@ -10,23 +10,57 @@ const imagePreview = document.getElementById("imagePreview");
 const captureBtn = document.getElementById("captureBtn");
 const canvas = document.getElementById("canvas");
 const realtime = document.getElementById("realtime");
+const switchCameraBtn = document.getElementById("switchCameraBtn"); // Must add this button in HTML!
 
-realtime.addEventListener("click", function () {
+let useBackCamera = true;
+let currentStream = null;
+
+realtime.addEventListener("click", () => {
   window.location.href = "/analysis";
 });
 
-// Start webcam
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then(function (stream) {
-    video.srcObject = stream;
-    video.play();
-  })
-  .catch(function (error) {
-    alertBox.innerText = "Camera Failed";
-    alertBox.className = "error";
-  });
+// ⏯ Start the camera with selected direction
+async function startCamera() {
+  if (currentStream) {
+    currentStream.getTracks().forEach((track) => track.stop());
+  }
 
-// Capture button logic
+  const constraints = {
+    video: {
+      facingMode: useBackCamera ? { exact: "environment" } : "user"
+    }
+  };
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = stream;
+    currentStream = stream;
+    video.play();
+  } catch (error) {
+    console.warn("Preferred camera not available, falling back...", error);
+    try {
+      const fallbackStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = fallbackStream;
+      currentStream = fallbackStream;
+      video.play();
+    } catch (fallbackError) {
+      console.error("Camera access failed:", fallbackError);
+      alertBox.innerText = "Camera Failed";
+      alertBox.className = "error";
+    }
+  }
+}
+
+// 🔁 Toggle camera
+switchCameraBtn.addEventListener("click", () => {
+  useBackCamera = !useBackCamera;
+  startCamera();
+});
+
+// ▶ Start camera on page load
+startCamera();
+
+// 📸 Capture and send for OCR
 captureBtn.onclick = function () {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
@@ -39,7 +73,7 @@ captureBtn.onclick = function () {
 
   // Delay OCR request slightly
   setTimeout(function () {
-    fetch("/ocr", {
+    fetch("/ocr", {  // ✅ Automatically works on both local and deployed Railway
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,3 +116,4 @@ captureBtn.onclick = function () {
       });
   }, 1000);
 };
+
