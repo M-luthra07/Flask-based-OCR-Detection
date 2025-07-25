@@ -76,10 +76,10 @@ import os
 def get_conn() -> pyodbc.Connection:
     return pyodbc.connect(
         f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-        f"SERVER={os.environ['AZURE_SQL_SERVER']};"
-        f"DATABASE={os.environ['AZURE_SQL_DATABASE']};"
-        f"UID={os.environ['AZURE_SQL_USER']};"
-        f"PWD={os.environ['AZURE_SQL_PASSWORD']};"
+        f"SERVER={['AZURE_SQL_SERVER']};"
+        f"DATABASE={{'AZURE_SQL_DATABASE'}};"
+        f"UID={{'AZURE_SQL_USER'}};"
+        f"PWD={{'AZURE_SQL_PASSWORD'}};"
         f"Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
     )
 
