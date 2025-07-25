@@ -68,7 +68,7 @@ UNIT_THRESHOLDS: dict[str, Tuple[float, float]] = {
 
 ## Local path to Tesseract OCR binary
 import pytesseract
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+##pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # ──────────────────────────  DB helpers  ────────────────────────────
 #sql server integeration credentials
