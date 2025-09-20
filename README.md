@@ -28,11 +28,12 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt  # Flask, pytesseract, pyodbc, OpenCV  
 Configure environment variables (create .env):
+init
+AZURE_SQL_SERVER=your-server.database.windows.net  
+AZURE_SQL_DATABASE=your-db-name  
+AZURE_SQL_USER=your-username  
+AZURE_SQL_PASSWORD=your-password  
 ```
-- AZURE_SQL_SERVER=your-server.database.windows.net  
-- AZURE_SQL_DATABASE=your-db-name  
-- AZURE_SQL_USER=your-username  
-- AZURE_SQL_PASSWORD=your-password  
 
 
 📂 GitHub: https://github.com/M-luthra07/Flask-based-OCR-Detection
