@@ -1,6 +1,6 @@
 # 🔍 Real-Time OCR Web App with Azure SQL
 A Flask web application that extracts text (values + units) from live webcam/images using Tesseract OCR, stores data in Azure SQL, and provides analysis.
-
+ 
 ✨ Key Features
 - Real-Time OCR: Extract numeric values + units (e.g., 5 kg, 10 m/s) from live webcam or uploaded images using Tesseract.
 - Unit Correction: Handles common OCR misreads (e.g., "km/h" → "km/hr", "gm" → "g") via Levenshtein distance algorithm.
