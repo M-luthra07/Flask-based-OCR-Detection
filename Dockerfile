@@ -1,5 +1,5 @@
-# Use official Python slim image
-FROM python:3.10-slim
+# Use official Python slim image based on Bullseye
+FROM python:3.10-slim-bullseye
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -9,7 +9,7 @@ ENV PORT=5000
 # Install dependencies for MS ODBC Driver and Tesseract
 RUN apt-get update && apt-get install -y \
     curl \
-    gnupg \
+    gnupg2 \
     unixodbc-dev \
     gcc \
     g++ \
@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install SQL Server ODBC driver 18
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+    && curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update \
     && ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
