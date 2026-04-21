@@ -22,8 +22,10 @@ from flask_cors import CORS
 #Library for SQL Server Integration
 
 import pyodbc
+from dotenv import load_dotenv
 
 #Initialize Flask app
+load_dotenv()
 app=Flask(__name__)
 
 CORS(app)
@@ -66,9 +68,10 @@ UNIT_THRESHOLDS: dict[str, Tuple[float, float]] = {
     "sec": (0.01, 500)
 }
 
-## Local path to Tesseract OCR binary
-import pytesseract
-##pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# Local path to Tesseract OCR binary (only for local development on Windows)
+if os.name == 'nt':
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# On Linux (Render), tesseract is usually in /usr/bin/tesseract which is in PATH
 
 # ──────────────────────────  DB helpers  ────────────────────────────
 #sql server integeration credentials
@@ -77,7 +80,7 @@ import os
 
 def get_conn() -> pyodbc.Connection:
     return pyodbc.connect(
-        f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+        f"DRIVER={{ODBC Driver 18 for SQL Server}};"
         f"SERVER={os.environ['AZURE_SQL_SERVER']};"
         f"DATABASE={os.environ['AZURE_SQL_DATABASE']};"
         f"UID={os.environ['AZURE_SQL_USER']};"
@@ -85,19 +88,26 @@ def get_conn() -> pyodbc.Connection:
         f"Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
     )
 
-with get_conn() as _c:
-    _c.execute(
-        """
-        IF OBJECT_ID('dbo.Results','U') IS NULL
-        CREATE TABLE dbo.Results(
-            [value]   FLOAT       NOT NULL,
-            unit      VARCHAR(20) NOT NULL,
-            CONSTRAINT uq_value_unit UNIQUE ([value], unit)
-        );
-        """
-    )
-    _c.commit()
+# Try to initialize the table, but don't crash the app if DB is unreachable
+try:
+    with get_conn() as _c:
+        _c.execute(
+            """
+            IF OBJECT_ID('dbo.Results','U') IS NULL
+            CREATE TABLE dbo.Results(
+                [value]   FLOAT       NOT NULL,
+                unit      VARCHAR(20) NOT NULL,
+                CONSTRAINT uq_value_unit UNIQUE ([value], unit)
+            );
+            """
+        )
+        _c.commit()
+except Exception as e:
+    print(f"WARNING: Database initialization failed: {e}")
+    print("The app will run, but database features may fail.")
+
 # Unit Correction Function By capturing
+
 #Compute Levenshtein edit distance between two strings
 
 def levenshtein(a: str, b: str) -> int:
@@ -157,16 +167,38 @@ def ocr() -> Tuple[dict, int]:
 
         img = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
+        # Save for debugging
+        cv2.imwrite("static/debug_original.jpg", img)
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Use THRESH_BINARY to get Black Text on White Background (better for Tesseract)
         thr = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                    cv2.THRESH_BINARY_INV, 31, 9)
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+                                    cv2.THRESH_BINARY, 31, 9)
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1)) # Smaller kernel to not merge text
         proc  = cv2.morphologyEx(thr, cv2.MORPH_CLOSE, kernel)
+
+        # Save processed usage
+        cv2.imwrite("static/debug_processed.jpg", proc)
+
+        # OCR with expanded whitelist
         txt = pytesseract.image_to_string(
             proc,
-            config="--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyz.,/µ"
-        ).lower().replace("µ", "u")
-        pairs = re.findall(r"(\d+(?:[.,]\d+)?)\s*([a-z/]{1,5})", txt)
+            config="--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,/µ%"
+        )
+        
+        # Save raw OCR text for debugging
+        with open("static/debug_output.txt", "w", encoding="utf-8") as f:
+            f.write(txt)
+
+        print(f"DEBUG: Tesseract Output Raw:\n{txt}")
+        
+        # Normalize for parsing: lowercase and fix common chars
+        txt_norm = txt.lower().replace("µ", "u")
+        
+        # Regex to find Number + Unit
+        # Allow optional space, match int or float, match unit
+        pairs = re.findall(r"(\d+(?:[.,]\d+)?)\s*([a-z%μ/]+)", txt_norm)
+        print(f"DEBUG: Found pairs: {pairs}")
 
         if not pairs:
             return jsonify(success=False, error="no pairs found"), 200
@@ -270,8 +302,7 @@ def table():
 @app.route("/analysis")
 def analysis():
     return render_template("analysis.html")
-
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
 

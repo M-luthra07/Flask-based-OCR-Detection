@@ -45,7 +45,8 @@ async function startCamera() {
       video.play();
     } catch (fallbackError) {
       console.error("Camera access failed:", fallbackError);
-      alertBox.innerText = "Camera Failed";
+      alert("Camera Error: " + fallbackError.message + "\n\nBrowsers block camera access on insecure (HTTP) connections. See instructions to fix.");
+      alertBox.innerText = "Camera Failed. browser requires HTTPS.";
       alertBox.className = "error";
     }
   }

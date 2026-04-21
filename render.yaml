@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: flask-ocr-app
+    env: docker
+    plan: free
+    region: singapore # Change as needed
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: AZURE_SQL_SERVER
+        sync: false # Set in Render Dashboard
+      - key: AZURE_SQL_DATABASE
+        sync: false # Set in Render Dashboard
+      - key: AZURE_SQL_USER
+        sync: false # Set in Render Dashboard
+      - key: AZURE_SQL_PASSWORD
+        sync: false # Set in Render Dashboard

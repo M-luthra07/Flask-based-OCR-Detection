@@ -4,3 +4,5 @@ pytesseract
 numpy
 opencv-python-headless
 pyodbc
+python-dotenv
+gunicorn
